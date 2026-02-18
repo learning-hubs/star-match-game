@@ -1,7 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+
+const PlayNumber = props => (
+  // What makes click handler access the value of each number
+  // each onClick function here closes over the scope of its owner number & gives access to props
+  // each onClick handlers has different closures closing over different scopes
+  // Stateful functional components depends on closures
+  <button className='number' onClick={() => console.log('Num', props.number)}>{props.number}</button>
+);
+
+const StarsDisplay = props => (
+  <>
+    {utils.range(1, props.count).map(starId => 
+      <div key={starId} className='star' />
+    )}
+  </>
+)
 
 const StarMatch = () => {
+  const [stars, setStars] = useState(utils.random(1, 9));
   return (
     <div className='game'>
       <div className='help'>
@@ -9,26 +27,12 @@ const StarMatch = () => {
       </div>
       <div className='body'>
         <div className='left'>
-          <div className='star' />
-          <div className='star' />
-          <div className='star' />
-          <div className='star' />
-          <div className='star' />
-          <div className='star' />
-          <div className='star' />
-          <div className='star' />
-          <div className='star' />
+          <StarsDisplay count={stars}/>
         </div>
         <div className='right'>
-          <button className='number'>1</button>
-          <button className='number'>2</button>
-          <button className='number'>3</button>
-          <button className='number'>4</button>
-          <button className='number'>5</button>
-          <button className='number'>6</button>
-          <button className='number'>7</button>
-          <button className='number'>8</button>
-          <button className='number'>9</button>
+          {utils.range(1, 9).map(number => 
+            <PlayNumber key={number} number={number}/>
+          )}
         </div>
       </div>
       <div className='timer'>Time Remaining: 10</div>
