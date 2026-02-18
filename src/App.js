@@ -16,6 +16,12 @@ const PlayNumber = props => (
   </button>
 );
 
+const PlayAgain = props => (
+  <div className='game-done'>
+    <button onClick={props.onClick}>Play Again</button>
+  </div>
+);
+
 const StarsDisplay = props => (
   <>
     {utils.range(1, props.count).map(starId => 
@@ -30,6 +36,13 @@ const StarMatch = () => {
   const [candidateNums, setCandidateNums] = useState([]);
 
   const candidatesAreWrong = utils.sum(candidateNums) > stars;
+  const gameIsDone = availableNums.length === 0;
+
+  const resetGame = () => {
+    setStars(utils.random(1, 9));
+    setAvailableNums(utils.range(1, 9));
+    setCandidateNums([]);
+  }
 
   const numberStatus = (number) => {
     if (!availableNums.includes(number)) {
@@ -42,6 +55,7 @@ const StarMatch = () => {
   }
 
   const onNumberClick = (number, currentStatus) => {
+    console.log('onNumberClick called')
     if (currentStatus == 'used') {
       return;
     }
@@ -50,6 +64,7 @@ const StarMatch = () => {
     const newCandidateNums = currentStatus === 'available' ? candidateNums.concat(number) : candidateNums.filter(cn => cn !== number);;
 
     if (utils.sum(newCandidateNums) !== stars) {
+      console.log('newCandidateNums: ', newCandidateNums);
       setCandidateNums(newCandidateNums);
     } else {
       const newAvailableNums = availableNums.filter(n => !newCandidateNums.includes(n));
@@ -66,7 +81,11 @@ const StarMatch = () => {
       </div>
       <div className='body'>
         <div className='left'>
-          <StarsDisplay count={stars}/>
+          {gameIsDone ? (
+            <PlayAgain onClick={resetGame} />
+          ) : (
+            <StarsDisplay count={stars}/>
+          )}
         </div>
         <div className='right'>
           {utils.range(1, 9).map(number => 
@@ -99,9 +118,10 @@ const utils = {
   random: (min, max) => min + Math.floor(Math.random() * (max - min + 1)),
 
   randomSumIn: (arr, max) => {
+    console.log("New Candidate Available nums: ", arr);
     const sets = [[]];
     const sums = [];
-
+    
     for (let i=0;i<arr.length;i++) {
       for (let j=0, len = sets.length; j < len; j++) {
         const candidateSet = sets[j].concat(arr[i]);
@@ -110,6 +130,8 @@ const utils = {
         if (candidateSum <= max) {
           sets.push(candidateSet);
           sums.push(candidateSum);
+          // console.log('sets: ', sets);
+          // console.log('sums: ', sums);
         }
       }
     }
