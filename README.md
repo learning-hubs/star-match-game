@@ -70,3 +70,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 You need to call the cleanup function of side effect when you reset the game.How to reset the game by unmounting the component rather than resetting the state.Because when you unmount the component React will call all the cleanups that you have.
+
+When we click on the play again button React is going to change the GameId value from 1 to 2 & that will make the game unmount, clear all the side effects and mount a new game with a new state.
+
+Game Component is managing the state -> initializing the state, defining side effects, cleaning up side effects & also transacting on the state using set calls here. This logic belongs to the same place. React has a way for us to extract all this logic into its own function. This new function is called a Custom Hook.
+
+Custom Hook is a special function because its going to be stateful function. extract the logic of basic hooks: useState & useEffect & we are going to group these hooks in a single custom function. Its special becuase its using React hooks function. SO we create custom hooks with the name starting from use. Always use React hooks function in the same order. U cant have an if statement around one of the hooks.
+
+AFter creating custom hooks componets responsibility is mostly to describe the UI.
