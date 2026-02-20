@@ -78,3 +78,7 @@ Game Component is managing the state -> initializing the state, defining side ef
 Custom Hook is a special function because its going to be stateful function. extract the logic of basic hooks: useState & useEffect & we are going to group these hooks in a single custom function. Its special becuase its using React hooks function. SO we create custom hooks with the name starting from use. Always use React hooks function in the same order. U cant have an if statement around one of the hooks.
 
 AFter creating custom hooks componets responsibility is mostly to describe the UI.
+
+When we ship things to browser we need to ship everything as a single bundle because browsers dont know how to work with modules yet. Practice to ship Javascript app is to bundle all your application in a single file & ship that to browser. Webpack package is going to do the bundling for us.
+
+#### https://jscomplete.com/learn/1rd-reactful
